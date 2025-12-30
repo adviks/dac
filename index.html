@@ -4,6 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Duck Address Composer</title>
+<meta name="description" content="Compose new emails from DuckDuckGo @duck.com addresses using a simple browser-based tool that formats recipient emails correctly.">
+
+<meta name="keywords" content="duckduckgo email, duck.com email, duck address, duckduckgo email protection, compose from duck address">
+
+<meta name="author" content="Advik">
+
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Duck Address Composer">
+<meta property="og:description" content="Compose new emails from DuckDuckGo @duck.com addresses using a simple browser-based formatting tool.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://adviks.in/dac">
 
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&display=swap" rel="stylesheet">
 
@@ -17,6 +28,8 @@
     --ddg-text: #1f1f1f;
     --ddg-muted: #6f6f6f;
     --ddg-success: #2e7d32;
+    --ddg-highlight-bg: #fff6f2;
+    --ddg-highlight-border: #f2c1b3;
 }
 
 * {
@@ -26,8 +39,10 @@
 
 body {
     margin: 0;
-    min-height: 100vh;
     background: var(--ddg-bg);
+    min-height: 100vh;
+    min-height: 100svh;
+    min-height: 100dvh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -35,10 +50,10 @@ body {
 
 .container {
     background: var(--ddg-card);
-    padding: 24px;
+    padding: 20px;
     border-radius: 16px;
     width: 92%;
-    max-width: 500px;
+    max-width: 480px;
     border: 1px solid var(--ddg-border);
 }
 
@@ -46,11 +61,12 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+    margin-bottom: 12px;
 }
 
 .logo {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -65,46 +81,30 @@ body {
 
 h1 {
     margin: 0;
-    font-size: 24px;
+    font-size: 22px;
     color: var(--ddg-text);
 }
 
 .subtitle {
-    margin-top: 4px;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--ddg-text);
-}
-
-.description {
-    margin-top: 4px;
     font-size: 13px;
     color: var(--ddg-muted);
-    margin-bottom: 18px;
 }
 
 label {
     display: block;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
-    margin-top: 14px;
+    margin-top: 12px;
     color: var(--ddg-text);
-}
-
-small {
-    display: block;
-    font-size: 12px;
-    color: var(--ddg-muted);
-    margin-top: 4px;
 }
 
 input {
     width: 100%;
-    padding: 12px;
+    padding: 11px;
     margin-top: 6px;
     border-radius: 12px;
     border: 1px solid var(--ddg-border);
-    font-size: 15px;
+    font-size: 14px;
 }
 
 input:focus {
@@ -115,13 +115,13 @@ input:focus {
 
 button {
     width: 100%;
-    margin-top: 18px;
+    margin-top: 16px;
     padding: 12px;
     border: none;
     border-radius: 999px;
     background: var(--ddg-orange);
     color: #fff;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
 }
@@ -130,34 +130,42 @@ button:hover {
     background: var(--ddg-orange-dark);
 }
 
+/* 🔥 Contrast improvement */
 .result-box {
     display: none;
-    margin-top: 20px;
+    margin-top: 16px;
     padding: 14px;
     border-radius: 14px;
-    background: #fafafa;
-    border: 1px solid var(--ddg-border);
+    background: var(--ddg-highlight-bg);
+    border: 1.5px solid var(--ddg-highlight-border);
 }
 
 .result {
     word-break: break-all;
-    font-size: 15px;
-    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 600;
     color: var(--ddg-text);
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px dashed var(--ddg-highlight-border);
+    margin-bottom: 10px;
 }
 
 .copy-btn {
-    background: #f1f1f1;
+    background: #9acaae;
     color: var(--ddg-text);
     border: 1px solid var(--ddg-border);
 }
 
 .copy-btn:hover {
-    background: #eaeaea;
+    background: #9acaae;
+    color: var(--ddg-text);
+    border: 1px solid var(--ddg-border);
 }
 
 .copy-feedback {
-    margin-top: 8px;
+    margin-top: 6px;
     font-size: 12px;
     color: var(--ddg-success);
     opacity: 0;
@@ -168,20 +176,14 @@ button:hover {
     opacity: 1;
 }
 
-.note {
-    margin-top: 12px;
-    font-size: 12px;
-    color: var(--ddg-muted);
-}
-
 .error {
-    margin-top: 12px;
-    font-size: 14px;
+    margin-top: 10px;
+    font-size: 13px;
     color: #c62828;
 }
 
 .footer {
-    margin-top: 22px;
+    margin-top: 14px;
     font-size: 11px;
     color: var(--ddg-muted);
     text-align: center;
@@ -200,7 +202,7 @@ button:hover {
 
     <div class="header">
         <div class="logo">
-            <!-- Official DuckDuckGo SVG -->
+            <!-- Your DuckDuckGo SVG stays -->
             <svg fill="none" viewBox="0 0 53 53" xmlns="http://www.w3.org/2000/svg">
   <path fill="#fff" d="M110.045 24.224h-2.405l-4.378 4.502v-9.003h-1.85v15.354h1.85v-5.056l4.995 4.994.061.062h2.22v-.185l-5.611-5.55zm-11.898 8.223c-.679.678-1.666 1.048-2.775 1.048-1.912 0-3.824-1.172-3.824-3.885 0-2.281 1.604-3.885 3.824-3.885.986 0 1.911.37 2.651 1.049l.062.061 1.171-1.233-.061-.062C98.085 24.492 96.79 24 95.31 24c-3.392 0-5.673 2.281-5.673 5.611 0 3.885 2.836 5.612 5.673 5.612h.062c1.48 0 2.898-.555 3.884-1.604l.062-.061-1.233-1.234zm-12.581-2.404c0 1.973-1.356 3.453-3.268 3.515-2.035 0-3.268-1.233-3.268-3.33v-5.981h-1.85v5.981c0 3.083 1.85 5.057 4.748 5.057h.062c1.418 0 2.713-.679 3.576-1.727l.062-.123.062 1.665h1.726V24.247h-1.85zM67.298 19.66h-5.612v15.417h5.612c5.365 0 7.708-3.947 7.708-7.832 0-3.638-2.405-7.585-7.708-7.585zm5.796 7.524c0 2.96-1.788 5.92-5.735 5.92h-3.7V21.571h3.639c3.946 0 5.796 2.898 5.796 5.612zm96.018 1.17h4.748v3.577c-1.171.986-2.59 1.541-4.131 1.541-4.193 0-6.105-3.021-6.105-5.981 0-3.022 1.912-6.29 6.043-6.29 1.665 0 3.207.617 4.44 1.727l.062.061 1.11-1.295-.062-.061c-1.48-1.48-3.453-2.22-5.611-2.22-2.344 0-4.317.74-5.735 2.22-1.48 1.48-2.282 3.576-2.22 5.92 0 3.638 2.096 7.831 8.016 7.831h.124a7.716 7.716 0 0 0 5.796-2.59V26.69h-6.536v1.665zm-51.181-8.694h-5.612v15.417h5.612c5.365 0 7.708-3.947 7.708-7.832 0-3.638-2.405-7.584-7.708-7.584zm5.796 7.524c0 2.96-1.788 5.92-5.735 5.92h-3.638V21.572h3.638c3.885 0 5.735 2.898 5.735 5.612zm59.463-3.185c-3.269 0-5.612 2.405-5.612 5.673 0 3.268 2.343 5.611 5.612 5.611 3.268 0 5.673-2.343 5.673-5.611 0-3.33-2.343-5.673-5.673-5.673zm3.823 5.673c0 2.282-1.603 3.885-3.823 3.885-2.159 0-3.762-1.603-3.762-3.885 0-2.343 1.542-4.008 3.823-4.008 2.159.061 3.762 1.726 3.762 4.008zm-50.814.371c0 1.973-1.356 3.453-3.268 3.515-2.035 0-3.268-1.233-3.268-3.33v-5.981h-1.85v5.981c0 3.083 1.85 5.057 4.686 5.057h.062c1.418 0 2.713-.679 3.576-1.727l.062-.123.062 1.665h1.726V24.247h-1.85v5.796zm12.58 2.404c-.678.678-1.665 1.048-2.775 1.048-1.911 0-3.823-1.172-3.823-3.885 0-2.281 1.603-3.885 3.823-3.885.987 0 1.912.37 2.652 1.049l.062.061 1.171-1.233-.061-.062c-1.11-1.048-2.405-1.541-3.885-1.541-3.392 0-5.673 2.281-5.673 5.611 0 3.885 2.836 5.612 5.673 5.612h.061c1.48 0 2.899-.555 3.885-1.604l.062-.061-1.233-1.234zm11.899-8.223h-2.405l-4.378 4.502v-9.003h-1.85v15.354h1.85v-5.056l4.994 4.994.062.062h2.22v-.185l-5.611-5.55z"/>
   <path fill="#de5833" fill-rule="evenodd" d="M26.5 53C41.136 53 53 41.136 53 26.5S41.136 0 26.5 0 0 11.864 0 26.5 11.864 53 26.5 53z" clip-rule="evenodd"/>
@@ -217,40 +219,26 @@ button:hover {
   <path fill="#fff" fill-rule="evenodd" d="M26.497 48.438c12.118 0 21.941-9.823 21.941-21.94S38.615 4.555 26.498 4.555 4.555 14.38 4.555 26.497s9.824 21.941 21.941 21.941zm24.292-21.94c0 13.415-10.876 24.29-24.292 24.29S2.206 39.914 2.206 26.499 13.08 2.204 26.497 2.204 50.79 13.081 50.79 26.497z" clip-rule="evenodd"/>
 </svg>
         </div>
-
         <div>
             <h1>Duck Address Composer</h1>
-            <div class="subtitle">Compose new emails from your Duck address</div>
+            <div class="subtitle">Compose emails from your Duck address</div>
         </div>
     </div>
 
-    <div class="description">
-        Formats email addresses using DuckDuckGo’s documented workaround.
-    </div>
-
-    <label for="duckEmail">Duck Address</label>
+    <label>Duck Address</label>
     <input type="email" id="duckEmail" placeholder="name@duck.com">
-    <small>Your DuckDuckGo @duck.com address</small>
 
-    <label for="recipientEmail">Recipient Email</label>
+    <label>Recipient Email</label>
     <input type="email" id="recipientEmail" placeholder="person@example.com">
-    <small>Who you want to email</small>
 
-    <button id="generateBtn">Generate Address</button>
+    <button id="generateBtn">Generate</button>
 
     <div id="error" class="error"></div>
 
     <div id="resultBox" class="result-box">
         <div id="result" class="result"></div>
         <button class="copy-btn" id="copyBtn">Copy</button>
-        <div id="copyFeedback" class="copy-feedback">Copied ✓</div>
-        <div class="note">
-            Use this as the <strong>To</strong> address when composing a new email.
-        </div>
-    </div>
-
-    <div class="note">
-        Based on DuckDuckGo Email Protection documentation.
+        <div id="copyFeedback" class="copy-feedback">Copied</div>
     </div>
 
     <div class="footer">
@@ -271,7 +259,7 @@ function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-document.getElementById('generateBtn').addEventListener('click', () => {
+document.getElementById('generateBtn').onclick = () => {
     error.textContent = '';
     resultBox.style.display = 'none';
 
@@ -279,12 +267,12 @@ document.getElementById('generateBtn').addEventListener('click', () => {
     const recipient = recipientEmail.value.trim();
 
     if (!duck || !recipient) {
-        error.textContent = 'Please fill in both fields.';
+        error.textContent = 'Fill both fields.';
         return;
     }
 
     if (!isValidEmail(duck) || !isValidEmail(recipient)) {
-        error.textContent = 'Enter valid email addresses.';
+        error.textContent = 'Invalid email.';
         return;
     }
 
@@ -295,14 +283,13 @@ document.getElementById('generateBtn').addEventListener('click', () => {
 
     result.textContent = recipient.replace('@', '_at_') + '_' + duck;
     resultBox.style.display = 'block';
-});
+};
 
-document.getElementById('copyBtn').addEventListener('click', () => {
-    navigator.clipboard.writeText(result.textContent).then(() => {
-        feedback.classList.add('show');
-        setTimeout(() => feedback.classList.remove('show'), 1500);
-    });
-});
+document.getElementById('copyBtn').onclick = () => {
+    navigator.clipboard.writeText(result.textContent);
+    feedback.classList.add('show');
+    setTimeout(() => feedback.classList.remove('show'), 1200);
+};
 </script>
 </body>
 </html>
